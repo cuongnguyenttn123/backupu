@@ -1,0 +1,415 @@
+@extends('admin1.Layout.pagetemplate')
+@section('head')
+    <!-- x-editor CSS
+        ============================================ -->
+    <link rel="stylesheet" href="{{asset('adminp/css/editor/select2.css')}}">
+    <link rel="stylesheet" href="{{asset('adminp/css/editor/datetimepicker.css')}}">
+    <link rel="stylesheet" href="{{asset('adminp/css/editor/bootstrap-editable.css')}}">
+    <link rel="stylesheet" href="{{asset('adminp/css/editor/x-editor-style.css')}}">
+    <!-- normalize CSS
+        ============================================ -->
+    <link rel="stylesheet" href="{{asset('adminp/css/data-table/bootstrap-table.css')}}">
+    <link rel="stylesheet" href="{{asset('adminp/css/data-table/bootstrap-editable.css')}}">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
+    <style>
+        .dropdown {
+            position: inherit;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            padding: 5px 5px;
+            z-index: 10;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+        .dropdown-content div:hover{
+            background-color: #b9bbbe;
+        }
+        .modal-edu-general .modal-body {
+            text-align: center;
+            padding: 20px 70px;
+        }
+        .actions{
+            min-width:240px;
+        }
+    </style>
+@stop
+@section('content')
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="logo-pro">
+                    <a href="index.html"><img class="main-logo" src="{{asset('adminp/img/logo/logo.png')}}" alt="" /></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    @include('admin1.Layout.header')
+    <!-- Static Table Start -->
+    <div class="data-table-area mg-b-15">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="sparkline13-list">
+                        <div class="sparkline13-hd">
+                            <div class="main-sparkline13-hd">
+                                <h1><span class="table-project-n">Edit Post</span></h1>
+                            </div>
+                            <form method="post" enctype="multipart/form-data" action="{{route('SavePost',$post->id)}}" >
+                            <input type='hidden' name='_token' value="{{csrf_token()}}" />
+                            <input type='hidden' name='fromWeb' value="asdad asdasd" />
+                            <input type='hidden' name='user_id' value="{{$post->user_id}}" />
+                            <div class="form-group-inner">
+                            <label>Description</label>
+                            <input id="Description" name="description" type="text" class="form-control" value="@if($post->description){{$post->description}}@endif" placeholder="Full Name" required/>
+                            </div>
+                             <div class="form-group-inner">
+                            <input id="image" name="image" type="file" class="form-control"  placeholder="Full Name" />
+                            </div>
+                            @if($post->image)
+                             <div class="form-group-inner">
+                            <label>Image</label>
+                            </div>
+                            
+                            <div class="form-group-inner">
+                         
+                                   <image src="https://www.urpixpays.com/public/uploads/images/{{$post->image}}" style="height:200px;width:200px" />
+                                 
+                                   <a href="{{route('delete.image',$post->id)}}" >
+                                       <input type="button" value="Remove Image" class="btn btn-danger" />
+                                   </a>
+                                   
+                            </div>
+                            @endif
+                            <div class="form-group-inner">
+
+                                  <input  type="submit" class="btn btn-primary" value="Update" />
+                            </div>
+                            </form>
+                        </div>
+            
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @include('admin1.Layout.footer')
+@stop
+@section('script')
+    <!-- data table JS
+        ============================================ -->
+    <script src="{{asset('adminp/js/data-table/bootstrap-table.js')}}"></script>
+    <script src="{{asset('adminp/js/data-table/tableExport.js')}}"></script>
+    <script src="{{asset('adminp/js/data-table/data-table-active.js')}}"></script>
+    <script src="{{asset('adminp/js/data-table/bootstrap-table-editable.js')}}"></script>
+    <script src="{{asset('adminp/js/data-table/bootstrap-editable.js')}}"></script>
+    <script src="{{asset('adminp/js/data-table/bootstrap-table-resizable.js')}}"></script>
+    <script src="{{asset('adminp/js/data-table/colResizable-1.5.source.js')}}"></script>
+    <script src="{{asset('adminp/js/data-table/bootstrap-table-export.js')}}"></script>
+    <!--  editable JS
+        ============================================ -->
+    <script src="{{asset('adminp/js/editable/jquery.mockjax.js')}}"></script>
+    <script src="{{asset('adminp/js/editable/mock-active.js')}}"></script>
+    <script src="{{asset('adminp/js/editable/select2.js')}}"></script>
+    <script src="{{asset('adminp/js/editable/moment.min.js')}}"></script>
+    <script src="{{asset('adminp/js/editable/bootstrap-datetimepicker.js')}}"></script>
+    <script src="{{asset('adminp/js/editable/bootstrap-editable.js')}}"></script>
+    <script src="{{asset('adminp/js/editable/xediable-active.js')}}"></script>
+    <!-- Chart JS
+        ============================================ -->
+    <script src="{{asset('adminp/js/chart/jquery.peity.min.js')}}"></script>
+    <script src="{{asset('adminp/js/peity/peity-active.js')}}"></script>
+    <!-- tab JS
+        ============================================ -->
+    <script src="{{asset('adminp/js/tab.js')}}"></script>
+    <script type="text/javascript">
+        $( document ).ready(function() {
+            console.log('ready');
+            $('#master_item').addClass('active1');
+            $('#client_list').addClass('active');
+            $('#client_list .has-arrow').attr('aria-expanded','true');
+            $('#client_list ul').addClass('show');
+            $('.breadcome-menu').html('');
+            $('.breadcome-menu').append('' +
+                '<li>' +
+                '<a href="">Home</a>' +
+                '<span class="bread-slash">/</span>' +
+                '</li>' +
+                '<li>' +
+                '<span class="bread-blod">Users</span>\n' +
+                '</li>');
+        });
+
+    </script>
+    <script>
+        $( document ).ready(function() {
+            $('.pd-setting-ed').click(function(){
+                var id=this.id;
+                var a_name=$('#'+id).find('.o-name').text();
+                var a_email=$('#'+id).find('.o-email').text();
+
+                $('#name-add').text(a_name);
+                $('#email-add').text(a_email);
+
+                $('#add-modal').click();
+
+            });
+
+            $('#delete-all-btn').click(function(){
+                var IDs = [];
+                $('tbody').find(".selected").find(".user-no").each(function(){ IDs.push($(this).text()); });
+
+                $.ajax({
+                    url: '{{url("/user/multi_delete")}}',
+                    type: 'post',
+                    data: { numbers:IDs} ,
+                beforeSend: function (request) {
+                    return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
+                },
+                success: function(response){
+                    var obj = JSON.parse(response);
+                    window.location.replace('/admin/user0');
+                },
+                error: function(response){
+                    console.log(response);
+                    alert('error');
+                }
+            });
+
+            });
+        
+            $('#edit_user_submit').click(function(){
+                var id = $('#edit-id').val();
+                var name = $('#edit-name').val();
+                var email = $('#edit-email').val();
+                var country = $('#edit-country').val();
+                var city = $('#edit-city').val();
+                var age = $('#edit-age').val();
+                var phone = $('#edit-phone').val();
+                var password = $('#edit-password').val();
+                var wallet = $('#edit-wallet').val();
+                var flip = $('#edit-flip').val();
+                var wand = $('#edit-wand').val();
+                var charge = $('#edit-charge').val();
+                var votes = $('#edit-votes').val();
+
+                var data = new FormData();
+                data.append('id', id);
+                data.append('name', name);
+                data.append('email', email);
+                data.append('country', country);
+                data.append('city', city);
+                data.append('age', age);
+                data.append('phone', phone);
+                data.append('password', password);
+                data.append('wallet', wallet);
+                data.append('flip', flip);
+                data.append('wand', wand);
+                data.append('charge', charge); 
+                data.append('votes', votes);              
+    
+                $.ajax({
+                    type: "POST",
+                    url: '{{url("/edit_user")}}',
+                    data: data,
+                    processData: false, // high importance!
+                    contentType: false,
+                    cache: false,
+                    async: true,
+                    enctype: 'multipart/form-data',
+                    beforeSend: function (request) {
+                        return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
+                    },
+                    success: function (response) {
+                        var json = JSON.parse(response);
+                        var type = (json['state']);
+                        if (type == 200) {
+                            $('#edit_user_cancel').click()
+                            alert('Successfully updated!');
+                        }
+                    },
+                    error: function (response) {
+                        console.log(response);
+                        alert('failed');
+                    }
+                });
+                });
+
+            $('#edit_transfer_submit').click(function(){
+
+                var id1 = $('#tech_id').text();
+
+                var amount=$('#amount').val();
+                var notes = $('#notes').val();
+                var e = document.getElementById('inputGroupSelect02');
+                var status = e.options[e.selectedIndex].text;
+
+                var  data = new FormData();
+                data.append('id', id1);
+                data.append('amount', amount);
+                data.append('status', status);
+                data.append('notes', notes);
+
+                $.ajax({
+                    type: "POST",
+                    url: '{{url('/edit_transfer1')}}',
+                    data:data ,
+                    processData: false, // high importance!
+                    contentType:false ,
+                    cache: false,
+                    async:true,
+                    enctype:'multipart/form-data',
+
+                    beforeSend: function (request) {
+                        return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
+                    },
+                    success: function(response){
+                        console.log(response);
+                        var obj = JSON.parse(response);
+                        if(obj.state == 1){
+                            $('#edit_transfer_cancel').click()
+                            alert('Successfully transferred!');
+                        }else{
+                            alert('Please confirm customer email again');
+                        } 
+                    },
+                    error: function(response){
+                        console.log(response);
+
+                        //location.reload();
+                    }
+                });
+
+
+            });
+        });
+
+    </script>
+    <script>
+        function edit_admin(id){
+            var aid = $('#'+id).find('.id').text();
+            var name = $('#'+id).find('.name').text();
+            var email = $('#'+id).find('.email').text();
+            var country = $('#'+id).find('.country').text();
+            var city = $('#'+id).find('.city').text();
+            var age = $('#'+id).find('.age').text();
+            var password = $('#'+id).find('.password').text();
+            var mobile = $('#'+id).find('.mobile').text();
+            var wallet = $('#'+id).find('.wallet').text();
+            var flip = $('#'+id).find('.flip').text();
+            var wand = $('#'+id).find('.wand').text();
+            var charge = $('#'+id).find('.charge').text();
+            var votes = $('#'+id).find('.votes').text();
+            $('#edit-id').val(aid);
+            $('#edit-name').val(name);
+            $('#edit-email').val(email);
+            $('#edit-country').val(country);
+            $('#edit-city').val(city);
+            $('#edit-age').val(age);
+            $('#edit-phone').val(mobile);
+            $('#edit-password').val(password);
+            $('#edit-wallet').val(wallet);
+            $('#edit-flip').val(flip);
+            $('#edit-wand').val(wand);
+            $('#edit-charge').val(charge);
+            $('#edit-votes').val(votes);
+            $('#edit_product_dlg').modal();
+        }
+        function edit_transfer(id){
+            var uid = $('#'+id).find('.id').text();
+            $('#tech_id').text(uid)
+            $('#edit_transfer_dlg').modal();
+        }        
+        function viewadmin(id){
+            var aid = $('#'+id).find('.id').text();
+            var name = $('#'+id).find('.name').text();
+            var email = $('#'+id).find('.email').text();
+            var country = $('#'+id).find('.country').text();
+            var city = $('#'+id).find('.city').text();
+            var age = $('#'+id).find('.age').text();
+            var password = $('#'+id).find('.password').text();
+            var mobile = $('#'+id).find('.mobile').text();
+            var wallet = $('#'+id).find('.wallet').text();
+            var flip = $('#'+id).find('.flip').text();
+            var wand = $('#'+id).find('.wand').text();
+            var charge = $('#'+id).find('.charge').text();
+            var votes = $('#'+id).find('.votes').text();
+            $('#edit-id1').val(aid);
+            $('#edit-name1').val(name);
+            $('#edit-email1').val(email);
+            $('#edit-country1').val(country);
+            $('#edit-city1').val(city);
+            $('#edit-age1').val(age);
+            $('#edit-phone1').val(mobile);
+            $('#edit-password1').val(password);
+            $('#edit-wallet1').val(wallet);
+            $('#edit-flip1').val(flip);
+            $('#edit-wand1').val(wand);
+            $('#edit-charge1').val(charge);
+            $('#edit-votes1').val(votes);
+            $('#view_product_dlg').modal();
+        }
+        function selectitem(item,selectObject,id) {
+            var value = selectObject.value;
+            var val='';
+            switch (value) {
+                case '0':
+                    $('#'+id).css('color','#ff0000');
+                    val=0;
+                    break;
+                case '1':
+                    $('#'+id).css('color','#0000cc');
+                    val=1;
+                    break;
+                case '3':
+                    $('#'+id).css('color','#e6005c');
+                    val='delete';
+                    break;
+                default:
+                    val='error';
+                    break;
+            }
+            var data = new FormData();
+            data.append('email', item);
+            data.append('permission', val);
+
+            $.ajax({
+                type: "POST",
+                url: '{{url("post-status/")}}/'+item+"/"+val,
+                data: data,
+                processData: false, // high importance!
+                contentType: false,
+                cache: false,
+                async: true,
+                enctype: 'multipart/form-data',
+                beforeSend: function (request) {
+                    return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
+                },
+                success: function (response) {
+                    var json = JSON.parse(response);
+                    // var type = (json['state']);
+                    // if (type == 200) {
+                    //     alert('Successfully changed!');
+                    //     // location.reload();
+                    // } else {
+                    //     alert('Please confirm your info');
+                    // }
+                },
+                error: function (response) {
+                    console.log(response);
+                    alert('failed');
+                }
+            });
+        }
+    </script>
+
+
+@stop
